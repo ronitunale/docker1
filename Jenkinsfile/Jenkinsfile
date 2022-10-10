@@ -7,22 +7,25 @@ pipeline {
 
 		stages {
 			stage ('create-volume') {
+			steps {
 			sh "yum install docker -y"
 			sh "systemctl start docker"
 			sh "docker volume create 22Q1"
 			}
-			
-			stage ('copy-22Q1') {
-			sh "yum install git -y"
-			sh "git clone https://github.com/ronitunale/dockerassi.git -b 22Q1 /var/lib/docker/volumes/22Q1/_data" 
-
 			}
 			
-			stage ('Deploy-container') { 
+			stage ('copy-22Q1') {
+			steps {
+			sh "yum install git -y"
+			sh "git clone https://github.com/ronitunale/dockerassi.git -b 22Q1 /var/lib/docker/volumes/22Q1/_data" 
+			}
+			}
+			
+			stage ('Deploy-container') {
+			steps {
 			sh "docker run --name 22Q1 -itdp 80:80 -v 22Q1:/usr/local/apache2/htdocs httpd"
-			
-			
-			
+			}
+						
 			}
 
 	}
