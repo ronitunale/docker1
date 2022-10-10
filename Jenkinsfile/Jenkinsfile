@@ -11,21 +11,29 @@ pipeline {
 			sh "yum install docker -y"
 			sh "systemctl start docker"
 			sh "docker volume create 22Q1"
+			sh "docker volume create 22Q2"
+			sh "docker volume create 22Q3"
 			}
 			}
 			
-			stage ('copy-22Q1') {
+			stage ('copy-branches') {
 			steps {
 			sh "yum install git -y"
 			sh "rm -rf /var/lib/docker/volumes/22Q1/_data"
 			sh "git clone https://github.com/ronitunale/dockerassi.git -b 22Q1 /var/lib/docker/volumes/22Q1/_data"
-			sh "chmod -R 777 /var/lib/docker/volumes/22Q1/_data"
+			sh "rm -rf /var/lib/docker/volumes/22Q2/_data"
+			sh "git clone https://github.com/ronitunale/dockerassi.git -b 22Q2 /var/lib/docker/volumes/22Q2/_data"
+			sh "rm -rf /var/lib/docker/volumes/22Q3/_data"
+			sh "git clone https://github.com/ronitunale/dockerassi.git -b 22Q3 /var/lib/docker/volumes/22Q3/_data"
+			sh "chmod -R 777 /var/lib/docker/volumes/"
 			}
 			}
 			
-			stage ('Deploy-container') {
+			stage ('Deploy-containers') {
 			steps {
-			sh "docker run -itdp 90:80 -v 22Q1:/usr/local/apache2/htdocs httpd"
+			sh "docker run --name 22Q1 -itdp 80:80 -v 22Q1:/usr/local/apache2/htdocs httpd"
+			sh "docker run --name 22Q2 -itdp 90:80 -v 22Q2:/usr/local/apache2/htdocs httpd"
+			sh "docker run --name 22Q3 -itdp 8181:80 -v 22Q3:/usr/local/apache2/htdocs httpd"
 			
 			}
 						
