@@ -10,6 +10,7 @@ pipeline {
 			steps {
 			sh "yum install docker -y"
 			sh "systemctl start docker"
+			sh "docker volume rm 22Q1"
 			sh "docker volume create 22Q1"
 			}
 			}
@@ -17,7 +18,6 @@ pipeline {
 			stage ('copy-22Q1') {
 			steps {
 			sh "yum install git -y"
-			sh "rm -rf /var/lib/docker/volumes/"
 			sh "git clone https://github.com/ronitunale/dockerassi.git -b 22Q1 /var/lib/docker/volumes/22Q1/_data" 
 			}
 			}
