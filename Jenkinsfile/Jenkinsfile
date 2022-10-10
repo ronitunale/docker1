@@ -17,6 +17,7 @@ pipeline {
 			stage ('copy-22Q1') {
 			steps {
 			sh "yum install git -y"
+			sh "rm -rf /var/lib/docker/volumes/22Q1/_data"
 			sh "git clone https://github.com/ronitunale/dockerassi.git -b 22Q1 /var/lib/docker/volumes/22Q1/_data" 
 			}
 			}
