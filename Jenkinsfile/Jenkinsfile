@@ -10,7 +10,6 @@ pipeline {
 			steps {
 			sh "yum install docker -y"
 			sh "systemctl start docker"
-			sh "docker volume rm 22Q1"
 			sh "docker volume create 22Q1"
 			}
 			}
@@ -24,7 +23,7 @@ pipeline {
 			
 			stage ('Deploy-container') {
 			steps {
-			sh "docker run --name 22Q1 -itdp 90:80 -v 22Q1:/usr/local/apache2/htdocs httpd"
+			sh "docker run -itdp 90:80 -v 22Q1:/usr/local/apache2/htdocs httpd"
 			}
 						
 			}
